@@ -31,8 +31,11 @@
 	<property name="BM_VERSION" value="openliberty-19.0.0.4" />
 	<basename property="BM_BINARIES_ZIP" file="${BM_BINARIES_URL}"/>
 	
-	<property name="LIBERTY_APP_URL" value="https://github.com/WASdev/sample.daytrader7/releases/download/v1.2/daytrader-ee7.ear" />
-	<basename property="LIBERTY_APP" file="${LIBERTY_APP_URL}"/>
+	<property name="LIBERTY_DT7_URL" value="https://github.com/WASdev/sample.daytrader7/releases/download/v1.2/daytrader-ee7.ear" />
+	<basename property="LIBERTY_DT7" file="${LIBERTY_DT7_URL}"/>
+	
+	<property name="LIBERTY_DT3_URL" value="https://github.com/WASdev/sample.daytrader3/releases/download/v1.0/daytrader3-ee6.ear" />
+	<basename property="LIBERTY_DT3" file="${LIBERTY_DT3_URL}"/>
 
 	<property name="DERBY_BINARIES_URL" value="http://archive.apache.org/dist/db/derby/db-derby-10.10.1.1/db-derby-10.10.1.1-lib.zip" />
 	<property name="DERBY_PACKAGE" value="db-derby-10.10.1.1-lib" />
@@ -74,20 +77,35 @@
 			</else>
 		</if>
 		<if>
-			<available file="${DEST}/libertyBinaries/${BM_VERSION}/usr/shared/apps/webcontainer/${LIBERTY_APP}" type="file" />
+			<available file="${DEST}/libertyBinaries/${BM_VERSION}/usr/shared/apps/webcontainer/${LIBERTY_DT7}" type="file" />
 			<then>
-				<echo message="${DEST}/libertyBinaries/${BM_VERSION}/usr/shared/apps/webcontainer/${LIBERTY_APP} exists. Hence, not downloading it." />
+				<echo message="${DEST}/libertyBinaries/${BM_VERSION}/usr/shared/apps/webcontainer/${LIBERTY_DT7} exists. Hence, not downloading it." />
 			</then>
 			<else>
-				<echo message="${DEST}/libertyBinaries/${BM_VERSION}/usr/shared/apps/webcontainer/${LIBERTY_APP} doesn't exist. Hence, downloading it." />						
-				<var name="curl_command" value="-OLks ${LIBERTY_APP_URL}"/>
+				<echo message="${DEST}/libertyBinaries/${BM_VERSION}/usr/shared/apps/webcontainer/${LIBERTY_DT7} doesn't exist. Hence, downloading it." />						
+				<var name="curl_command" value="-OLks ${LIBERTY_DT7_URL}"/>
 				<echo message="curl ${curl_command}" />
 				<exec executable="curl" failonerror="true">
 					<arg line="${curl_command}" />
 				</exec>
-				<copy file="${LIBERTY_APP}" todir="${DEST}/libertyBinaries/${BM_VERSION}/usr/shared/apps/webcontainer/"/>
+				<copy file="${LIBERTY_DT7}" todir="${DEST}/libertyBinaries/${BM_VERSION}/usr/shared/apps/webcontainer/"/>
 			</else>
 		</if>
+		<if>
+			<available file="${DEST}/libertyBinaries/${BM_VERSION}/usr/shared/apps/webcontainer/${LIBERTY_DT3}" type="file" />
+			<then>
+				<echo message="${DEST}/libertyBinaries/${BM_VERSION}/usr/shared/apps/webcontainer/${LIBERTY_DT3} exists. Hence, not downloading it." />
+			</then>
+			<else>
+				<echo message="${DEST}/libertyBinaries/${BM_VERSION}/usr/shared/apps/webcontainer/${LIBERTY_DT3} doesn't exist. Hence, downloading it." />						
+				<var name="curl_command" value="-OLks ${LIBERTY_DT3_URL}"/>
+				<echo message="curl ${curl_command}" />
+				<exec executable="curl" failonerror="true">
+					<arg line="${curl_command}" />
+				</exec>
+				<copy file="${LIBERTY_DT3}" todir="${DEST}/libertyBinaries/${BM_VERSION}/usr/shared/apps/webcontainer/"/>
+			</else>
+		</if>		
 		<if>
 			<available file="${DEST}/libertyBinaries/${BM_VERSION}/usr/shared/resources/derby/derby.jar" type="file" />
 			<then>
